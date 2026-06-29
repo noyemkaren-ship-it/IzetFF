@@ -8,16 +8,16 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 2) {
-            if (args[0].equals("--version")) {
-                System.out.println("1.0");
-                System.exit(0);
-            } else {
-                System.err.println("Usage: java Main <inputFile> <outputFile>");
-                System.exit(404);
-            }
-
+        if (args.length == 1 && args[0].equals("--version")) {
+            System.out.println("izetFF v1.0");
+            System.exit(0);
         }
+
+        if (args.length < 2) {
+            System.err.println("Usage: izetFF <inputFile> <outputFile>");
+            System.exit(404);
+        }
+
         System.out.println("Start compilation");
         String filename = args[0];
         String writefile = args[1];
@@ -29,22 +29,24 @@ public class Main {
         try {
             List<String> lines = Files.readAllLines(path);
             for (String line : lines) {
-                if (line.contains("prinln ")) {
-                    Ut.print(line.strip().substring(6));
+                if (line.contains("println ")) {
+                    Ut.print(line.strip().substring(8));
                 } else if (line.contains("base css black")) {
-                    cods.append(Lexer.get(1));
-                } else if (line.contains("base css white")){
-                    cods.append(Lexer.get(2));
-                }else if (line.contains("base: ")) {
-                    cods.append(Parser.get(line.substring(6)));
-                }else if (line.contains("println: err ")) {
-                    Ut.err_print(line.substring(12));
+                    cods.append(Lexer.get(1)).append("\n");
+                } else if (line.contains("base css white")) {
+                    cods.append(Lexer.get(2)).append("\n");
+                } else if (line.contains("base: ")) {
+                    cods.append(Parser.get(line.substring(6).strip())).append("\n");
+                } else if (line.contains("println: err ")) {
+                    Ut.err_print(line.substring(12).strip());
                 } else if (line.contains("avatar: ")) {
-                    cods.append(Parser.getavatar(line.substring(7).strip()));
-                } else if (line.contains("auto ")){
-                    cods.append(Auto.get(line.substring(6)));
-                }else  {
-                    cods.append(line);
+                    cods.append(Parser.getavatar(line.substring(7).strip())).append("\n");
+                } else if (line.contains("auto: ")) {
+                    cods.append(Auto.get(line.substring(6).strip())).append("\n");
+                } else if (line.contains("auto ")) {
+                    cods.append(Auto.get(line.substring(5).strip())).append("\n");
+                } else {
+                    cods.append(line).append("\n");
                 }
             }
 

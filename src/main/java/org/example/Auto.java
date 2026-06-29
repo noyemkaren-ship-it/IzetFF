@@ -2,8 +2,9 @@ package org.example;
 
 public class Auto {
     public static String get(String text) {
+        text = text.strip();
         if (text.startsWith("h1 ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     h1 {
                       font-weight: 700;
@@ -15,7 +16,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("h2 ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     h2 {
                       font-weight: 600;
@@ -27,7 +28,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("h3 ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     h3 {
                       font-weight: 600;
@@ -39,7 +40,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("h4 ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     h4 {
                       font-weight: 600;
@@ -51,7 +52,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("h5 ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     h5 {
                       font-weight: 600;
@@ -62,7 +63,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("h6 ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     h6 {
                       font-weight: 600;
@@ -75,7 +76,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("p ")) {
-            String value = text.strip().substring(2).strip();
+            String value = text.substring(2).strip();
             return """
                     p {
                       font-weight: 400;
@@ -86,7 +87,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("a ")) {
-            String value = text.strip().substring(2).strip();
+            String value = text.substring(2).strip();
             return """
                     a {
                       color: var(--text-primary);
@@ -112,7 +113,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("img ")) {
-            String value = text.strip().substring(4).strip();
+            String value = text.substring(4).strip();
             return """
                     img {
                       max-width: 100%;
@@ -123,7 +124,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("button ")) {
-            String value = text.strip().substring(7).strip();
+            String value = text.substring(7).strip();
             return """
                     button {
                       display: inline-flex;
@@ -154,7 +155,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("li ")) {
-            String value = text.strip().substring(3).strip();
+            String value = text.substring(3).strip();
             return """
                     li {
                       position: relative;
@@ -178,7 +179,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("blockquote ")) {
-            String value = text.strip().substring(11).strip();
+            String value = text.substring(11).strip();
             return """
                     blockquote {
                       border-left: 3px solid var(--accent);
@@ -192,7 +193,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("code ")) {
-            String value = text.strip().substring(5).strip();
+            String value = text.substring(5).strip();
             return """
                     code {
                       background: var(--bg-elevated);
@@ -205,7 +206,7 @@ public class Auto {
                     }
                     """.formatted(value);
         } else if (text.startsWith("input ")) {
-            String value = text.strip().substring(6).strip();
+            String value = text.substring(6).strip();
             return """
                     input {
                       width: 100%;
