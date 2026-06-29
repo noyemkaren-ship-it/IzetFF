@@ -7,7 +7,7 @@ public class CommandLogicLexer {
     public record Variable(String name, String res) {}
 
     public static String command(String line) {
-        List<String> commands_lists = new ArrayList<>(List.of("let ", "help"));
+        List<String> commands_lists = new ArrayList<>(List.of("let ", "help", "/1 "));
 
         for (String comm : commands_lists) {
             if (line.startsWith(comm)) {
@@ -35,6 +35,8 @@ public class CommandLogicLexer {
                     System.out.println("  avatar: url - set avatar");
                     System.out.println("  auto: url - auto generate");
                     return "OK";
+                } else if (comm.startsWith("/1")) {
+                    return "/1";
                 }
             }
         }

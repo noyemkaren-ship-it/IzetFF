@@ -82,6 +82,8 @@ public class Main {
                     } else {
                         cods.append(Auto.get(autoContent)).append("\n");
                     }
+                } else if (line.contains("/1")) {
+                    System.out.println("I sow /1");
                 } else {
                     cods.append(line).append("\n");
                 }
