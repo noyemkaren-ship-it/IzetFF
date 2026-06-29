@@ -1,6 +1,6 @@
 # izetFF
 
-Собственный транспайлер на Java. Превращает простой текстовый синтаксис в готовый CSS файл с поддержкой тем, позиционирования, динамических размеров и переменных.
+Собственный транспайлер на Java. Превращает простой текстовый синтаксис в готовый CSS файл с поддержкой тем, позиционирования, динамических размеров, переменных и условий.
 
 ## Установка
 
@@ -14,13 +14,39 @@ izetFF читает `.izet` файл построчно и выполняет к
 
 ## Переменные
 
-`let имя=значение` — объявляет переменную. Можно использовать в `auto`, `println`, `println: err`. Пример:
+`let имя=значение` — объявляет переменную. Можно использовать в `auto`, `println`, `println: err`, `if`. Пример:
 let title_size=4rem
 let text_size=1.2rem
 auto: h1 title_size
 auto: p text_size
 
+## Условия if
+
+Проверяют значение переменной и выполняют блок кода только если условие истинно.
+
+Синтаксис:
+if переменная %=% значение
+команды
+END
+
 text
+
+Пример:
+let theme = dark
+
+if theme %=% dark
+base css black
+base: h1
+auto: h1 3rem
+END
+
+if theme %=% light
+base css white
+base: h1
+auto: h1 3rem
+END
+
+Меняешь `theme` — меняется вся тема. Один файл для всех вариантов.
 
 ## Темы
 
@@ -53,16 +79,42 @@ text
 `help` — показывает список всех доступных команд. Новые команды добавляются в `CommandLogicLexer.java`.
 
 ## Подсказки в izetff
-Подсказки пишутся через `/1`
-пример: `
+
+Подсказки пишутся через `/1`. Компилятор выводит `I sow /1` при обнаружении. Пример:
 /1 создания переменной
 let name = Karen
 /1 выводим
-println name`
+println name
+
+
+## Условная компиляция с if
+let use_hero = yes
+
+if use_hero %=% yes
+base: h1
+auto: h1 5rem
+base: button
+base: p
+END
+
+if use_hero %=% no
+base: h2
+auto: h2 2rem
+END
+
 ## Полный пример .izet файла
-let h_size=4rem
-let p_size=1.1rem
+let theme = bleck
+let h_size = 4rem
+let p_size = 1.1rem
+
+if theme %=% bleck
 avatar: center bleck
+END
+
+if theme %=% white
+avatar: center white
+END
+
 base: h1
 auto: h1 h_size
 base: h2
@@ -88,8 +140,8 @@ println Build complete!
 
 ## Структура проекта
 
-`Main.java` — точка входа, парсинг, переменные. `CommandLogicLexer.java` — обработчик команд. `Lexer.java` — темы black/white. `Parser.java` — стили тегов + аватары. `Auto.java` — динамические размеры. `Ut.java` — утилиты вывода.
+`Main.java` — точка входа, парсинг, переменные, условия. `CommandLogicLexer.java` — обработчик команд. `Lexer.java` — темы black/white. `Parser.java` — стили тегов + аватары. `Auto.java` — динамические размеры. `Ut.java` — утилиты вывода.
 
 ## Почему izetFF
 
-Пишешь на своём языке. Получаешь готовый CSS. Переменные. Темы. Быстро. Стильно. Твоё.
+Пишешь на своём языке. Получаешь готовый CSS. Переменные. Условия. Темы. Быстро. Стильно. Твоё.

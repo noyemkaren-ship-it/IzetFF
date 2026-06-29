@@ -22,6 +22,9 @@ public class Main {
             System.exit(404);
         }
 
+        boolean if_in_code = false;
+        boolean skip_if_block = false;
+
         System.out.println("Start compilation");
         String filename = args[0];
         String writefile = args[1];
@@ -33,59 +36,138 @@ public class Main {
         try {
             List<String> lines = Files.readAllLines(path);
             for (String line : lines) {
-                if (line.startsWith("let ")) {
-                    String result = CommandLogicLexer.command(line);
-                    if (result.equals("Error")) {
-                        System.err.println("Error in let command: " + line);
+                if (skip_if_block) {
+                    if (line.strip().equals("END")) {
+                        skip_if_block = false;
                     }
                     continue;
                 }
 
-                if (line.contains("println ")) {
-                    String content = line.strip().substring(8).trim();
+                if (!if_in_code) {
+                    if (line.startsWith("let ")) {
+                        String result = CommandLogicLexer.command(line);
+                        if (result.equals("Error")) {
+                            System.err.println("Error in let command: " + line);
+                        }
+                        continue;
+                    }
 
-                    CommandLogicLexer.Variable var = findVariable(content);
-                    if (var != null) {
-                        Ut.print(var.res());
+                    if (line.contains("println ")) {
+                        String content = line.strip().substring(8).trim();
+
+                        CommandLogicLexer.Variable var = findVariable(content);
+                        if (var != null) {
+                            Ut.print(var.res());
+                        } else {
+                            Ut.print(content);
+                        }
+                    } else if (line.contains("base css black")) {
+                        cods.append(Lexer.get(1)).append("\n");
+                    } else if (line.contains("base css white")) {
+                        cods.append(Lexer.get(2)).append("\n");
+                    } else if (line.contains("base: ")) {
+                        cods.append(Parser.get(line.substring(6).strip())).append("\n");
+                    } else if (line.contains("println: err ")) {
+                        String errContent = line.substring(12).strip();
+                        CommandLogicLexer.Variable var = findVariable(errContent);
+                        if (var != null) {
+                            Ut.err_print(var.res());
+                        } else {
+                            Ut.err_print(errContent);
+                        }
+                    } else if (line.contains("avatar: ")) {
+                        cods.append(Parser.getavatar(line.substring(7).strip())).append("\n");
+                    } else if (line.contains("auto: ")) {
+                        String autoContent = line.substring(6).strip();
+                        CommandLogicLexer.Variable var = findVariable(autoContent);
+                        if (var != null) {
+                            cods.append(Auto.get(var.res())).append("\n");
+                        } else {
+                            cods.append(Auto.get(autoContent)).append("\n");
+                        }
+                    } else if (line.contains("auto ")) {
+                        String autoContent = line.substring(5).strip();
+                        CommandLogicLexer.Variable var = findVariable(autoContent);
+                        if (var != null) {
+                            cods.append(Auto.get(var.res())).append("\n");
+                        } else {
+                            cods.append(Auto.get(autoContent)).append("\n");
+                        }
+                    } else if (line.contains("/1")) {
+                        System.out.println("I sow /1");
+                    } else if (line.strip().startsWith("if ")) {
+                        String condition = line.strip().substring(3).replace(":", "");
+                        String[] parts = condition.split(" %=% ");
+                        if (parts.length == 2) {
+                            String varName = parts[0].strip();
+                            String expectedValue = parts[1].strip();
+                            CommandLogicLexer.Variable var = findVariable(varName);
+                            if (var != null && var.res().equals(expectedValue)) {
+                                if_in_code = true;
+                            } else {
+                                skip_if_block = true;
+                            }
+                        }
                     } else {
-                        Ut.print(content);
+                        cods.append(line).append("\n");
                     }
-                } else if (line.contains("base css black")) {
-                    cods.append(Lexer.get(1)).append("\n");
-                } else if (line.contains("base css white")) {
-                    cods.append(Lexer.get(2)).append("\n");
-                } else if (line.contains("base: ")) {
-                    cods.append(Parser.get(line.substring(6).strip())).append("\n");
-                } else if (line.contains("println: err ")) {
-                    String errContent = line.substring(12).strip();
-                    CommandLogicLexer.Variable var = findVariable(errContent);
-                    if (var != null) {
-                        Ut.err_print(var.res());
-                    } else {
-                        Ut.err_print(errContent);
-                    }
-                } else if (line.contains("avatar: ")) {
-                    cods.append(Parser.getavatar(line.substring(7).strip())).append("\n");
-                } else if (line.contains("auto: ")) {
-                    String autoContent = line.substring(6).strip();
-                    CommandLogicLexer.Variable var = findVariable(autoContent);
-                    if (var != null) {
-                        cods.append(Auto.get(var.res())).append("\n");
-                    } else {
-                        cods.append(Auto.get(autoContent)).append("\n");
-                    }
-                } else if (line.contains("auto ")) {
-                    String autoContent = line.substring(5).strip();
-                    CommandLogicLexer.Variable var = findVariable(autoContent);
-                    if (var != null) {
-                        cods.append(Auto.get(var.res())).append("\n");
-                    } else {
-                        cods.append(Auto.get(autoContent)).append("\n");
-                    }
-                } else if (line.contains("/1")) {
-                    System.out.println("I sow /1");
                 } else {
-                    cods.append(line).append("\n");
+                    if (line.startsWith("let ")) {
+                        String result = CommandLogicLexer.command(line);
+                        if (result.equals("Error")) {
+                            System.err.println("Error in let command: " + line);
+                        }
+                        continue;
+                    }
+
+                    if (line.contains("println ")) {
+                        String content = line.strip().substring(8).trim();
+
+                        CommandLogicLexer.Variable var = findVariable(content);
+                        if (var != null) {
+                            Ut.print(var.res());
+                        } else {
+                            Ut.print(content);
+                        }
+                    } else if (line.contains("base css black")) {
+                        cods.append(Lexer.get(1)).append("\n");
+                    } else if (line.contains("base css white")) {
+                        cods.append(Lexer.get(2)).append("\n");
+                    } else if (line.contains("base: ")) {
+                        cods.append(Parser.get(line.substring(6).strip())).append("\n");
+                    } else if (line.contains("println: err ")) {
+                        String errContent = line.substring(12).strip();
+                        CommandLogicLexer.Variable var = findVariable(errContent);
+                        if (var != null) {
+                            Ut.err_print(var.res());
+                        } else {
+                            Ut.err_print(errContent);
+                        }
+                    } else if (line.contains("avatar: ")) {
+                        cods.append(Parser.getavatar(line.substring(7).strip())).append("\n");
+                    } else if (line.contains("auto: ")) {
+                        String autoContent = line.substring(6).strip();
+                        CommandLogicLexer.Variable var = findVariable(autoContent);
+                        if (var != null) {
+                            cods.append(Auto.get(var.res())).append("\n");
+                        } else {
+                            cods.append(Auto.get(autoContent)).append("\n");
+                        }
+                    } else if (line.contains("auto ")) {
+                        String autoContent = line.substring(5).strip();
+                        CommandLogicLexer.Variable var = findVariable(autoContent);
+                        if (var != null) {
+                            cods.append(Auto.get(var.res())).append("\n");
+                        } else {
+                            cods.append(Auto.get(autoContent)).append("\n");
+                        }
+                    } else if (line.contains("/1")) {
+                        System.out.println("I sow /1");
+                    } else if (line.strip().equals("END")) {
+                        if_in_code = false;
+                    } else {
+                        cods.append(line).append("\n");
+                    }
                 }
             }
 
