@@ -52,6 +52,13 @@ text
 
 `help` — показывает список всех доступных команд. Новые команды добавляются в `CommandLogicLexer.java`.
 
+## Подсказки в izetff
+Подсказки пишутся через `/1`
+пример: `
+/1 создания переменной
+let name = Karen
+/1 выводим
+println name`
 ## Полный пример .izet файла
 let h_size=4rem
 let p_size=1.1rem
