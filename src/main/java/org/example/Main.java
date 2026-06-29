@@ -8,13 +8,17 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Start compilation");
-
         if (args.length < 2) {
-            System.err.println("Usage: java Main <inputFile> <outputFile>");
-            System.exit(404);
-        }
+            if (args[0].equals("--version")) {
+                System.out.println("1.0");
+                System.exit(0);
+            } else {
+                System.err.println("Usage: java Main <inputFile> <outputFile>");
+                System.exit(404);
+            }
 
+        }
+        System.out.println("Start compilation");
         String filename = args[0];
         String writefile = args[1];
         System.out.println("I check file: " + filename + " to: " + writefile);
