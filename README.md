@@ -3,10 +3,13 @@
 Собственный транспайлер на Java. Превращает простой текстовый синтаксис в готовый CSS файл с поддержкой тем, позиционирования и динамических размеров.
 
 ## Установка
-Требования: JDK 17+. Компиляция: `javac org/example/*.java`. Алиас: `alias izetFF='java org.example.Main'`. Запуск: `izetFF input.izet output.css`.
+Требования: JDK 17+ Алиас: `alias izetFF='java путь/izetFF/src/main/java/org/'`. Запуск: `izetFF input.izet output.css`.
 
 ## Синтаксис
 izetFF читает `.izet` файл построчно и выполняет команды.
+
+## Версия
+После установки и поставки alies советую проверить версию через izetFF --version
 
 ## Темы
 `base css black` — чёрная тема. `base css white` — белая тема. Подключают глобальные CSS-переменные и стили.
